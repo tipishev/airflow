@@ -233,7 +233,7 @@ Something like itertools/functools for operators.
 
 ### Tasks
 
-operator is instantiated with specific values, task becomes a node in DAG.
+Operator is instantiated with specific values, task becomes a node in DAG.
 
 ### Tasks Instances
 
@@ -242,14 +242,46 @@ operator is instantiated with specific values, task becomes a node in DAG.
 
 ### Task Lifecycle
 
-### Workflows
+* success
+* running
+* failed
+* skipped
+* rescheduled
+* retry
+* queued
+* no status
+
+### Happy Flow
+
+No status -> Scheduled -> Queued -> Running -> Success
+
+Black border in UI means scheduled run, non-bordered is manual.
+
+### Workflow Terms
+
+DAG, DAG Run, Operator, Task, Task Instance, execution_date
 
 ### Additional Functionality
 
-- hooks
-- pools: limit the execution parallelism, default pool with 128 slots
-- connections: define in UI, a better version of `setup_secrets` + util.connections
-- Queues: Celery-specific
+#### Hooks
+
+use connections defined in config, keep info in metadata db
+
+#### Pools
+
+limit the execution parallelism, default pool with 128 slots, operators can be assigned to pool, with pool parameter `parameter_weight`, gets summed across the whole downstream branch.
+
+#### Connections
+
+define in UI, a better version of `setup_secrets` + util.connections, basic load balancing with connections to the same resource sharing `conn_id`
+`get_connection()` method on `BaseHook`.
+`PostgresHook` uses `postgres_default`.
+
+#### Queues
+
+Celery-specific
+
+
 - XComs: cross-communication, exchange pickles via push/pull. Keeps history, can be used in templates.
 - Variables
 - Branching: `BranchPythonOperator`, doesn't play well with `depends_on_past=True`.
