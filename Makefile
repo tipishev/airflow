@@ -6,8 +6,11 @@ venv:
 requirements: venv                                
 	./venv/bin/pip install -r requirements.txt
 
-initdb:
-	. venv/bin/activate && airflow initdb
+# initdb:
+#         . venv/bin/activate && airflow initdb
+
+upgradedb:
+	. venv/bin/activate && airflow upgradedb
 
 webserver:
 	. venv/bin/activate && airflow webserver -p 8080
