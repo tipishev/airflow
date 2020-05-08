@@ -280,10 +280,69 @@ define in UI, a better version of `setup_secrets` + util.connections, basic load
 #### Queues
 
 Celery-specific
+`queue` is a an a
+`celery` -> `default_queue`
+
+`airflow worker -q foo,bar` command to start a worker connected to queues `foo` and `bar`.
 
 
-- XComs: cross-communication, exchange pickles via push/pull. Keeps history, can be used in templates.
-- Variables
-- Branching: `BranchPythonOperator`, doesn't play well with `depends_on_past=True`.
-- SubDAGs
+#### XComs
+cross-communication, exchange pickles via push/pull.
+Keeps history, can be used in templates.
 
+In Operator definitions
+`xcom_push=True` to push
+`provide_context=True` to get task instance and pull xcom.
+
+> if a task returns a value (either from its Operator’s execute() method, or from a PythonOperator’s python_callable function), then an XCom containing that value is automatically pushed.
+
+#### Variables
+
+Can be added via `Admin -> Variables`, code, or cli. Can be JSON. An aqlachemy model. Can be used in jinja templates and even JSON-deserialized.
+
+`AIRFLOW_VAR_FOO`
+
+#### Branching:
+`BranchPythonOperator`, doesn't play well with `depends_on_past=True`.
+
+
+#### SubDAGs
+
+Can store multiple dependencies of a task in a DAG, should contain a factory method.
+
+* `parent.child` naming convention.
+* must have a schedule
+* avoid `depends_on_past=True`
+* common to use `SequentialExecutor`
+
+#### SLAs
+
+Records and email SLA misses, disable with `check_slas=False`
+
+#### Trigger Rules
+
+> default value for `trigger_rule` is `all_success` and can be defined as “trigger this task when all directly upstream tasks have succeeded”
+
+#### Zombies & Undeads
+
+Tasks are instructed to verify their state as part of the heartbeat routine, and terminate themselves upon figuring out that they are in this “undead” state.
+
+#### Cluster Policy
+
+A policy of mutating tasks' attributes.
+
+#### Documentation & Notes
+
+A variety of ways to set rich documentation, can be generated dynamically for tasks that are build dynamically from config.
+
+#### Jinja Templating
+
+Can pass env variables to `BashOperator`.
+
+#### Packaged DAGs
+
+zipped DAGs
+
+#### `.airflowignore`
+
+enough said
