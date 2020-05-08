@@ -2,3 +2,4 @@ cryptography==2.9.2
 apache-airflow==1.10.10
 apache-airflow[celery]
 ipython==7.14.0
+ipdb=0.13.2

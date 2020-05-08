@@ -15,6 +15,7 @@ class MyFirstOperator(BaseOperator):
         super(MyFirstOperator, self).__init__(*args, **kwargs)
 
     def execute(self, context):
+        1/0
         log.info("Hello World!")
         log.info('operator_param: %s', self.operator_param)
 

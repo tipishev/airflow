@@ -17,3 +17,10 @@ webserver:
 
 scheduler:
 	. venv/bin/activate && airflow scheduler
+
+TEST_DAG_ID := my_test_dag
+TEST_TASK_ID := my_first_operator_task
+TEST_EXECUTION_DATE := 05-08T14:12:16.494309+00:00
+test:
+	. venv/bin/activate && airflow test -pm\
+		$(TEST_DAG_ID) $(TEST_TASK_ID) $(TEST_EXECUTION_DATE)
