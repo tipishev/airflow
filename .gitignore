@@ -4,3 +4,5 @@ venv/
 airflow/airflow.db
 airflow/airflow-webserver.pid
 airflow/logs
+__pycache__
+*.pyc
