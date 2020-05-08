@@ -1,2 +1,6 @@
 venv/
-airflow/
+
+# if using a local SQLite backend
+airflow/airflow.db
+airflow/airflow-webserver.pid
+airflow/logs
