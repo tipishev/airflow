@@ -20,6 +20,10 @@ class MyFirstOperator(BaseOperator):
     def execute(self, context):
         log.info("Hello World!")
         log.info('operator_param: %s', self.operator_param)
+        task_instance = context['task_instance']
+        sensors_minute = task_instance.xcom_pull('my_sensor_task',
+                                                 key='sensors_minute')
+        log.info('Valid minute as determined by sensor: %s', sensors_minute)
 
 
 class MyFirstSensor(BaseSensorOperator):
@@ -29,16 +33,19 @@ class MyFirstSensor(BaseSensorOperator):
         super(MyFirstSensor, self).__init__(*args, **kwargs)
 
     def poke(self, context):
+        task_instance = context['task_instance']
         current_minute = datetime.now().minute
         if current_minute % 3 != 0:
             log.info(
                 "Current min (%s) not is divisible by 3, sensor will retry.",
                 current_minute)
+            task_instance.xcom_push('sensors_minute', current_minute)
             return False
 
         log.info(
             "Current min (%s) is divisible by 3, sensor finishing.",
             current_minute)
+        task_instance.xcom_push('sensors_minute', current_minute)
         return True
 
 
