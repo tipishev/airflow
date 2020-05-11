@@ -7,7 +7,15 @@ requirements: venv
 	./venv/bin/pip install -r requirements.txt
 
 initdb:
+	sudo -u postgres createuser airflow
+	sudo -u postgres createdb airflow
+	sudo adduser airflow
 	. venv/bin/activate && airflow initdb
+
+dropdb:
+	sudo -u postgres dropdb airflow
+	sudo -u postgres dropuser airflow
+	sudo deluser airflow
 
 upgradedb:
 	. venv/bin/activate && airflow upgradedb
