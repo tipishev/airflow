@@ -5,6 +5,7 @@ Makefile and configuration to run Apache Airflow with Postgres DB backend and `L
 ## Prerequisites
 
 * Python3.6
+* python3-dev
 * virtualenv
 * Postgres
 

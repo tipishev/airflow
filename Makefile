@@ -26,6 +26,14 @@ webserver:
 scheduler:
 	. venv/bin/activate && airflow scheduler
 
+add_to_systemd:
+	sudo ln -s systemd/airflow-webserver.service /lib/systemd/system/
+	sudo ln -s systemd/airflow-scheduler.service /lib/systemd/system/
+	sudo systemctl daemon-reload
+	sudo systemctl enable airflow-webserver.service
+	sudo systemctl enable airflow-scheduler.service
+	sudo systemctl status airflow-webserver
+
 TEST_DAG_ID := my_test_dag
 TEST_TASK_ID := my_first_operator_task
 TEST_EXECUTION_DATE := 05-08T14:12:16.494309+00:00

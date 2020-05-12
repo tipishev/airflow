@@ -1,16 +1,16 @@
 [Unit]
 Description=Airflow scheduler daemon
-After=network.target postgresql.service mysql.service redis.service rabbitmq-server.service
-Wants=postgresql.service mysql.service redis.service rabbitmq-server.service
+After=network.target postgresql.service
+Wants=postgresql.service
 
 [Service]
-EnvironmentFile=/home/airflow/airflow.env
 User=airflow
 Group=airflow
 Type=simple
-ExecStart=/bin/bash -c '. /home/airflow/venv/bin/activate && airflow scheduler'
-Restart=always
+ExecStart=/bin/bash -c 'cd /home/airflow/airflow && make scheduler'
+Restart=on-failure
 RestartSec=5s
+PrivateTmp=true
 
 [Install]
 WantedBy=multi-user.target
