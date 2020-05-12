@@ -27,9 +27,11 @@ scheduler:
 	. venv/bin/activate && airflow scheduler
 
 add_to_systemd:
-	sudo ln -s systemd/airflow-webserver.service /lib/systemd/system/
-	sudo ln -s systemd/airflow-scheduler.service /lib/systemd/system/
-	sudo systemctl daemon-reload
+	sudo ln -s systemd/airflow-webserver.service /lib/systemd/system/airflow-webserver.service
+	sudo ln -s systemd/airflow-scheduler.service /lib/systemd/system/airflow-scheduler.service
+	sudo systemctl daemon-reload  # to read the new service definitions
+	sudo systemctl start airflow-webserver.service
+	sudo systemctl start airflow-scheduler.service
 	sudo systemctl enable airflow-webserver.service
 	sudo systemctl enable airflow-scheduler.service
 	sudo systemctl status airflow-webserver
