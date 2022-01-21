@@ -1,6 +1,6 @@
 cryptography==2.9.2
 apache-airflow==1.10.10
 apache-airflow[celery]
-ipython==7.14.0
+ipython==7.16.3
 ipdb==0.13.2
 psycopg2-binary==2.8.5
